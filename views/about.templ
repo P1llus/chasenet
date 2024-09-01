@@ -1,0 +1,18 @@
+package views
+
+import "github.com/P1llus/chasenet/pages/about"
+
+templ AboutPage(page *about.AboutMe) {
+	@Base(BasePageData{Title: page.Title, Description: page.Description, Canonical: page.Canonical}) {
+		<section class="section">
+    <h1 class="title has-text-centered">{ page.Title }</h1>
+			<div class="columns is-centered">
+					<div class="column is-half is-flex-wrap-wrap">
+          <div class="content">
+						@templ.Raw(page.Content)
+            </div>
+				</div>
+			</div>
+		</section>
+	}
+}

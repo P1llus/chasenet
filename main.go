@@ -1,8 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/P1llus/chasenet/server"
+)
 
 func main() {
-	// Call the function from the package
-	fmt.Println("Hello, World!")
+	server.Start()
 }

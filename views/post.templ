@@ -1,0 +1,16 @@
+package views
+
+import "github.com/P1llus/chasenet/pages/blog"
+
+templ PostPage(post *blog.BlogPost) {
+	@Base(BasePageData{Title: post.Title, Description: post.Description, Canonical: post.Canonical}) {
+		<section class="section">
+			<div class="container">
+        <h1 class="title">{ post.Title }</h1>
+			  <div class="content">
+				  @templ.Raw(post.Content)
+				</div>
+			</div>
+		</section>
+	}
+}

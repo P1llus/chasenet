@@ -1,0 +1,33 @@
+package views
+
+import "github.com/P1llus/chasenet/pages/blog"
+
+templ PostsPage(posts *blog.BlogPosts) {
+	@Base(BasePageData{Title: "Blog | Chasenet", Description: "List of all blog posts", Canonical: "http://localhost:1323/blog"}) {
+		<section class="section">
+			<h1 class="title has-text-centered">Latest Posts</h1>
+			<div class="columns is-centered is-multiline">
+				for _, post := range posts.Posts {
+					<div class="column is-7 mt-3">
+						<div class="card">
+							<div class="card-content">
+								<a href={ templ.SafeURL("/blog/" + post.Slug) }>
+									<p class="title">{ post.Title }</p>
+									<p class="subtitle is-size-6 mt-3">Created: { post.Date }</p>
+									<p>{ post.Description }</p>
+								</a>
+							</div>
+              <div class="field is-grouped is-grouped-multiline">
+								<div class="tags ml-4 mb-4">
+									for _, tag := range post.Tags {
+										<span class="tag">{ tag.(string) }</span>
+									}
+								</div>
+                </div>
+						</div>
+					</div>
+				}
+			</div>
+		</section>
+	}
+}

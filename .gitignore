@@ -1,0 +1,8 @@
+*.so
+*.test
+*.out
+*_templ.go
+go.work
+go.work.sum
+.env
+build/
