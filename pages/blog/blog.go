@@ -17,10 +17,9 @@ import (
 )
 
 //go:embed posts/*.md
-var assets embed.FS
+var blogFs embed.FS
 
 type BlogManager struct {
-	files          embed.FS
 	blogPosts      BlogPosts
 	markdownParser goldmark.Markdown
 }
@@ -60,7 +59,6 @@ func NewBlogManager() BlogManager {
 	)
 
 	return BlogManager{
-		files:          assets,
 		blogPosts:      BlogPosts{},
 		markdownParser: md,
 	}
@@ -79,8 +77,33 @@ func (m *BlogManager) ListBlogPosts() *BlogPosts {
 	return &m.blogPosts
 }
 
-func (m *BlogManager) ParseMarkdown(name string) (BlogPost, error) {
-	source, err := m.files.ReadFile(name)
+func (m *BlogManager) LoadBlogPosts() error {
+	var files []string
+	if err := fs.WalkDir(blogFs, ".", func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() {
+			return nil
+		}
+
+		files = append(files, path)
+		return nil
+	}); err != nil {
+		return err
+	}
+	var blogPosts BlogPosts
+	for _, file := range files {
+		post, err := m.parseMarkdown(file)
+		if err != nil {
+			return err
+		}
+		blogPosts.Posts = append(blogPosts.Posts, post)
+	}
+	m.blogPosts = blogPosts
+
+	return nil
+}
+
+func (m *BlogManager) parseMarkdown(name string) (BlogPost, error) {
+	source, err := blogFs.ReadFile(name)
 	if err != nil {
 		return BlogPost{}, err
 	}
@@ -102,29 +125,4 @@ func (m *BlogManager) ParseMarkdown(name string) (BlogPost, error) {
 	blogPost := BlogPost{Title: metaData["Title"].(string), Description: metaData["Description"].(string), Slug: slug, Content: buf.String(), Canonical: fmt.Sprintf("https://chasenet.org/posts/%s", slug), Date: date.Format("02-Jan-2006"), Tags: tags}
 
 	return blogPost, nil
-}
-
-func (m *BlogManager) LoadBlogPosts() error {
-	var files []string
-	if err := fs.WalkDir(assets, ".", func(path string, d fs.DirEntry, err error) error {
-		if d.IsDir() {
-			return nil
-		}
-
-		files = append(files, path)
-		return nil
-	}); err != nil {
-		return err
-	}
-	var blogPosts BlogPosts
-	for _, file := range files {
-		post, err := m.ParseMarkdown(file)
-		if err != nil {
-			return err
-		}
-		blogPosts.Posts = append(blogPosts.Posts, post)
-	}
-	m.blogPosts = blogPosts
-
-	return nil
 }

@@ -11,10 +11,11 @@ import (
 )
 
 //go:embed posts/*.md
-var assets embed.FS
+var aboutFs embed.FS
+
+const ABOUT_PATH = "posts/about.md"
 
 type AboutManager struct {
-	files          embed.FS
 	aboutPage      AboutMe
 	markdownParser goldmark.Markdown
 }
@@ -42,14 +43,27 @@ func NewAboutManager() AboutManager {
 	)
 
 	return AboutManager{
-		files:          assets,
 		aboutPage:      AboutMe{},
 		markdownParser: md,
 	}
 }
 
-func (m *AboutManager) ParseMarkdown(name string) (AboutMe, error) {
-	source, err := m.files.ReadFile(name)
+func (m *AboutManager) GetAboutPage() *AboutMe {
+	return &m.aboutPage
+}
+
+func (m *AboutManager) LoadAboutPage() error {
+	aboutPage, err := m.parseMarkdown(ABOUT_PATH)
+	if err != nil {
+		return err
+	}
+	m.aboutPage = aboutPage
+
+	return nil
+}
+
+func (m *AboutManager) parseMarkdown(name string) (AboutMe, error) {
+	source, err := aboutFs.ReadFile(name)
 	if err != nil {
 		return AboutMe{}, err
 	}
@@ -64,18 +78,4 @@ func (m *AboutManager) ParseMarkdown(name string) (AboutMe, error) {
 	aboutMe := AboutMe{Title: metaData["Title"].(string), Description: metaData["Description"].(string), Content: buf.String(), Canonical: "https://chasenet.org/about"}
 
 	return aboutMe, nil
-}
-
-func (m *AboutManager) LoadAboutPage() error {
-	aboutPage, err := m.ParseMarkdown("posts/about.md")
-	if err != nil {
-		return err
-	}
-	m.aboutPage = aboutPage
-
-	return nil
-}
-
-func (m *AboutManager) GetAboutPage() *AboutMe {
-	return &m.aboutPage
 }
