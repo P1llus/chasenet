@@ -4,7 +4,7 @@ go 1.23.0
 
 require (
 	github.com/a-h/templ v0.2.771
-	github.com/alecthomas/chroma/v2 v2.2.0
+	github.com/alecthomas/chroma/v2 v2.14.0
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/stretchr/testify v1.9.0
 	github.com/yuin/goldmark v1.7.4
@@ -14,7 +14,7 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/dlclark/regexp2 v1.7.0 // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
