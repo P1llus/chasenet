@@ -61,7 +61,7 @@ func (m *AboutManager) ParseMarkdown(name string) (AboutMe, error) {
 		return AboutMe{}, err
 	}
 	metaData := meta.Get(context)
-	aboutMe := AboutMe{Title: metaData["Title"].(string), Description: metaData["Description"].(string), Content: buf.String(), Canonical: "http://localhost:1323/about"}
+	aboutMe := AboutMe{Title: metaData["Title"].(string), Description: metaData["Description"].(string), Content: buf.String(), Canonical: "https://chasenet.org/about"}
 
 	return aboutMe, nil
 }

@@ -5,12 +5,14 @@ import (
 
 	"github.com/P1llus/chasenet/pages/about"
 	"github.com/P1llus/chasenet/pages/blog"
+	"github.com/P1llus/chasenet/static"
 	"github.com/P1llus/chasenet/views"
 	"github.com/labstack/echo/v4"
 )
 
 func Start() {
 	e := echo.New()
+	staticFS := static.GetStyles()
 	blogManager := blog.NewBlogManager()
 	err := blogManager.LoadBlogPosts()
 	if err != nil {
@@ -26,11 +28,11 @@ func Start() {
 	e.GET("/blog/:name", getPost(blogManager))
 	e.GET("/blog", getPosts(blogManager))
 	e.GET("/about", getAbout(aboutManager))
-	e.Static("/static", "assets")
+	e.StaticFS("/static", staticFS)
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 }
 
 func getAbout(pm about.AboutManager) echo.HandlerFunc {

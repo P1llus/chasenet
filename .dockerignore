@@ -1,0 +1,14 @@
+# flyctl launch added from .gitignore
+**/*.so
+**/*.test
+**/*.out
+**/go.work
+**/go.work.sum
+**/.env
+**/build
+.github/
+LICENSE
+fly.toml
+.dockerignore
+.gitignore
+.editorconfig

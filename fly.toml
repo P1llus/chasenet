@@ -1,0 +1,24 @@
+# fly.toml app configuration file generated for chasenet-fragrant-snowflake-4787 on 2024-09-02T11:11:10+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'chasenet-fragrant-snowflake-4787'
+primary_region = 'arn'
+
+[build]
+  [build.args]
+    GO_VERSION = '1.23.0'
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1

@@ -99,7 +99,7 @@ func (m *BlogManager) ParseMarkdown(name string) (BlogPost, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	blogPost := BlogPost{Title: metaData["Title"].(string), Description: metaData["Description"].(string), Slug: slug, Content: buf.String(), Canonical: fmt.Sprintf("http://localhost:1323/posts/%s", slug), Date: date.Format("02-Jan-2006"), Tags: tags}
+	blogPost := BlogPost{Title: metaData["Title"].(string), Description: metaData["Description"].(string), Slug: slug, Content: buf.String(), Canonical: fmt.Sprintf("https://chasenet.org/posts/%s", slug), Date: date.Format("02-Jan-2006"), Tags: tags}
 
 	return blogPost, nil
 }
