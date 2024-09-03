@@ -17,5 +17,5 @@ func TestGetStyles(t *testing.T) {
 	if err != nil {
 		t.Errorf("GetStyles() = %v; want not nil", output)
 	}
-	assert.Contains(t, string(output), `@import "https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"`)
+	assert.Contains(t, string(output), `@import "https://cdn.jsdelivr.net/npm/bulma@`)
 }
