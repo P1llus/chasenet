@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/fs"
 	"log"
+	"sort"
 	"time"
 
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
@@ -64,6 +65,8 @@ func NewBlogManager() BlogManager {
 	}
 }
 
+// The argument is the string part of the URL after /blog/someslug,
+// which will retrieve the matching blogpost based on slug value in the markdown file.
 func (m *BlogManager) GetBlogPostBySlug(slug string) *BlogPost {
 	for _, post := range m.blogPosts.Posts {
 		if post.Slug == slug {
@@ -73,10 +76,12 @@ func (m *BlogManager) GetBlogPostBySlug(slug string) *BlogPost {
 	return nil
 }
 
+// Returns an already sorted list of posts
 func (m *BlogManager) ListBlogPosts() *BlogPosts {
 	return &m.blogPosts
 }
 
+// Read all blog markdown files from the embedded fs which includes all files in ./posts
 func (m *BlogManager) LoadBlogPosts() error {
 	var files []string
 	if err := fs.WalkDir(blogFs, ".", func(path string, d fs.DirEntry, err error) error {
@@ -97,6 +102,21 @@ func (m *BlogManager) LoadBlogPosts() error {
 		}
 		blogPosts.Posts = append(blogPosts.Posts, post)
 	}
+	// Sort posts by date, newest first
+	sort.Slice(blogPosts.Posts, func(i, j int) bool {
+		dateI, errI := time.Parse("02-Jan-2006", blogPosts.Posts[i].Date)
+		dateJ, errJ := time.Parse("02-Jan-2006", blogPosts.Posts[j].Date)
+
+		// If there's an error parsing either date, consider the post with the error to be older
+		if errI != nil {
+			return false
+		}
+		if errJ != nil {
+			return true
+		}
+
+		return dateI.After(dateJ)
+	})
 	m.blogPosts = blogPosts
 
 	return nil
