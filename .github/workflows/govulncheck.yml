@@ -1,0 +1,22 @@
+name: Check for Vulnerabilities in Go dependencies
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    name: Check for Vulnerabilities
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Govulncheck
+        uses: golang/govulncheck-action@v1
+        with:
+           go-version-file: "./go.mod"
