@@ -22,3 +22,6 @@ primary_region = 'arn'
   memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
+
+[env]
+  APP_ENV = 'production'
