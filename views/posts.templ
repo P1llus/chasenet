@@ -17,13 +17,13 @@ templ PostsPage(posts *blog.BlogPosts) {
 									<p>{ post.Description }</p>
 								</a>
 							</div>
-              <div class="field is-grouped is-grouped-multiline">
+							<div class="field is-grouped is-grouped-multiline">
 								<div class="tags ml-4 mb-4">
-									for _, tag := range post.Tags {
-										<span class="tag">{ tag.(string) }</span>
+									for _, t := range post.Tags {
+										<span class="tag"><a href={ templ.SafeURL("/tags/" + t.(string)) }>{ t.(string) }</a></span>
 									}
 								</div>
-                </div>
+							</div>
 						</div>
 					</div>
 				}
