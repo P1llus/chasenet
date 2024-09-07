@@ -3,9 +3,6 @@ Title: About Me
 Description: Marius Iversen Elastic about me
 ---
 
-## Random facts ## {class="title is-4"}
-- Testing
-
 ## Current work ## {class="title is-4"}
 Currently working at [Elastic](https://elastic.co) as a Principle Software Engineer with a focus on third party integrations and implementing GenAI usecases.
 </br>

@@ -11,5 +11,5 @@ func TestAboutManager(t *testing.T) {
 	aboutManager.LoadAboutPage()
 	output := aboutManager.GetAboutPage()
 	assert.Contains(t, output.Title, "About Me")
-	assert.Contains(t, output.Content, "Random facts")
+	assert.Contains(t, output.Content, "Experience")
 }
