@@ -1,8 +1,6 @@
 package server
 
 import (
-	"net/http"
-
 	"github.com/P1llus/chasenet/pages/about"
 	"github.com/P1llus/chasenet/pages/blog"
 	"github.com/P1llus/chasenet/static"
@@ -14,14 +12,6 @@ func initRoutes(e *echo.Echo) {
 	initAboutRoutes(e)
 	initBlogRoutes(e)
 	initStaticRoutes(e)
-	initHomeRoutes(e)
-}
-
-// Home routes
-func initHomeRoutes(e *echo.Echo) {
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
 }
 
 // Static routes
@@ -51,4 +41,5 @@ func initBlogRoutes(e *echo.Echo) {
 	}
 	e.GET("/blog/:name", getBlogPostHandler(&blogManager))
 	e.GET("/blog", getBlogPostsHandler(&blogManager))
+	e.GET("/", getBlogPostsHandler(&blogManager))
 }

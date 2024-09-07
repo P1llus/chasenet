@@ -26,7 +26,7 @@ func Footer() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"footer\"><div class=\"content has-text-centered\"><p>2024 © <a href=\"/\">Marius Iversen</a></p><p><a href=\"https://github.com/P1llus/chasenet\">Source</a> released under Apache-2.0</p></div></footer>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"footer\"><div class=\"content has-text-centered\"><p>2024 © <a href=\"/about\">Marius Iversen</a></p><p><a href=\"https://github.com/P1llus/chasenet\">Source</a> released under Apache-2.0</p></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
