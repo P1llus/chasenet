@@ -76,6 +76,19 @@ func (m *BlogManager) GetBlogPostBySlug(slug string) *BlogPost {
 	return nil
 }
 
+// Gets all blogposts with a specific tag
+func (m *BlogManager) GetBlogPostsByTag(tag string) *BlogPosts {
+	var posts BlogPosts
+	for _, post := range m.blogPosts.Posts {
+		for _, t := range post.Tags {
+			if t == tag {
+				posts.Posts = append(posts.Posts, post)
+			}
+		}
+	}
+	return &posts
+}
+
 // Returns an already sorted list of posts
 func (m *BlogManager) ListBlogPosts() *BlogPosts {
 	return &m.blogPosts
