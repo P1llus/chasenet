@@ -21,13 +21,27 @@ func getAboutHandler(m *about.AboutManager) echo.HandlerFunc {
 }
 
 // Blog handlers
-func getBlogPostHandler(m *blog.BlogManager) echo.HandlerFunc {
+func getBlogPostBySlugHandler(m *blog.BlogManager) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		post := m.GetBlogPostBySlug(c.Param("name"))
 		if post == nil {
 			return c.String(http.StatusNotFound, "No blogpost with that name was found")
 		}
 		return views.PostPage(post).Render(
+			c.Request().Context(),
+			c.Response().Writer,
+		)
+	}
+}
+
+func getBlogPostsByTagHandler(m *blog.BlogManager) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		tag := c.Param("tag")
+		posts := m.GetBlogPostsByTag(tag)
+		if posts == nil {
+			return c.String(http.StatusNotFound, "No blogposts with that tag was found")
+		}
+		return views.PostsByTagPage(posts, tag).Render(
 			c.Request().Context(),
 			c.Response().Writer,
 		)

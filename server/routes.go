@@ -50,7 +50,8 @@ func initBlogRoutes(e *echo.Echo) {
 		e.Logger.Fatal(err)
 		return
 	}
-	e.GET("/blog/:name", getBlogPostHandler(&blogManager))
+	e.GET("/blog/:name", getBlogPostBySlugHandler(&blogManager))
+	e.GET("/tags/:tag", getBlogPostsByTagHandler(&blogManager))
 	e.GET("/blog", getBlogPostsHandler(&blogManager))
 	e.GET("/", getBlogPostsHandler(&blogManager))
 }
