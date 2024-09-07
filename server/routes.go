@@ -7,11 +7,22 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const robots = `User-agent: *
+Disallow:`
+
 // Init all routes
 func initRoutes(e *echo.Echo) {
 	initAboutRoutes(e)
 	initBlogRoutes(e)
 	initStaticRoutes(e)
+	initRobotsRoute(e)
+}
+
+// Robots.txt route
+func initRobotsRoute(e *echo.Echo) {
+	e.GET("/robots.txt", func(c echo.Context) error {
+		return c.String(200, robots)
+	})
 }
 
 // Static routes
